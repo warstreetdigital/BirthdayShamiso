@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shamiso | Birthday Memory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Inter,sans-serif;
+background:#fff6f8;
+color:#1f1f1f;
+overflow-x:hidden;
+}
+
+/* ambient glow */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+
+background:
+radial-gradient(circle at 50% 10%, rgba(247,217,227,0.55), transparent 35%),
+radial-gradient(circle at 80% 30%, rgba(255,220,230,0.28), transparent 40%),
+radial-gradient(circle at 20% 70%, rgba(255,220,235,0.22), transparent 45%);
+
+z-index:-1;
+
+animation:ambientMove 16s ease-in-out infinite alternate;
+}
+
+@keyframes ambientMove{
+0%{transform:scale(1);}
+100%{transform:scale(1.08);}
+}
+
+/* wrapper */
+
+.wrapper{
+max-width:960px;
+margin:auto;
+padding:40px 20px 120px;
+}
+
+/* cards */
+
+.card{
+position:relative;
+
+background:rgba(255,255,255,0.72);
+backdrop-filter:blur(18px);
+
+border-radius:32px;
+
+padding:40px;
+
+margin-bottom:50px;
+
+box-shadow:
+0 30px 70px rgba(0,0,0,0.08),
+0 0 60px rgba(247,217,227,0.35);
+
+overflow:hidden;
+}
+
+.card::before{
+content:"";
+position:absolute;
+width:420px;
+height:420px;
+
+background:radial-gradient(circle, rgba(255,220,230,0.45), transparent 70%);
+
+top:-180px;
+right:-120px;
+
+z-index:0;
+filter:blur(20px);
+}
+
+.card>*{
+position:relative;
+z-index:1;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:90px 40px;
+}
+
+.hero .year{
+font-size:170px;
+font-weight:700;
+line-height:1;
+
+color:rgba(184,143,160,0.12);
+
+position:absolute;
+top:40px;
+left:50%;
+transform:translateX(-50%);
+
+font-family:"Playfair Display",serif;
+}
+
+.hero h1{
+font-family:"Playfair Display",serif;
+font-size:68px;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+
+.hero .date{
+font-size:15px;
+letter-spacing:4px;
+text-transform:uppercase;
+color:#9f7f8b;
+margin-bottom:30px;
+}
+
+.hero .sub{
+font-size:20px;
+line-height:1.8;
+max-width:620px;
+margin:auto;
+color:#444;
+}
+
+.hero .from{
+margin-top:30px;
+font-size:14px;
+letter-spacing:3px;
+text-transform:uppercase;
+color:#b88fa0;
+}
+
+/* titles */
+
+.section-title{
+font-family:"Playfair Display",serif;
+font-size:34px;
+margin-bottom:28px;
+}
+
+/* slideshow */
+
+.slider{
+position:relative;
+height:620px;
+border-radius:24px;
+overflow:hidden;
+}
+
+.slide{
+position:absolute;
+inset:0;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+opacity:0;
+transition:opacity 1s ease;
+}
+
+.slide.active{
+opacity:1;
+}
+
+/* blurred fill */
+
+.slide::before{
+content:"";
+position:absolute;
+inset:0;
+
+background-size:cover;
+background-position:center;
+
+filter:blur(50px) brightness(.75);
+transform:scale(1.2);
+}
+
+.slide img{
+position:relative;
+z-index:2;
+
+max-width:100%;
+max-height:100%;
+
+object-fit:contain;
+
+border-radius:20px;
+}
+
+/* portrait section */
+
+.portrait-wrap{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.portrait{
+position:relative;
+overflow:hidden;
+border-radius:24px;
+height:520px;
+}
+
+.portrait img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.portrait .overlay{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+
+padding:26px;
+
+background:linear-gradient(180deg, transparent, rgba(0,0,0,0.75));
+
+color:white;
+}
+
+.portrait .overlay h3{
+font-family:"Playfair Display",serif;
+font-size:28px;
+margin-bottom:8px;
+}
+
+.portrait .overlay p{
+font-size:14px;
+line-height:1.6;
+color:#ddd;
+}
+
+/* letter */
+
+.letter{
+background:
+linear-gradient(135deg,#fff9fb,#fff1f5);
+}
+
+.letter .paper{
+border:1px solid rgba(184,143,160,0.2);
+
+padding:40px;
+
+border-radius:22px;
+
+background:rgba(255,255,255,0.65);
+
+box-shadow:
+inset 0 1px 0 rgba(255,255,255,0.6),
+0 10px 30px rgba(0,0,0,0.04);
+}
+
+.letter h2{
+font-family:"Playfair Display",serif;
+font-size:38px;
+margin-bottom:25px;
+}
+
+.letter p{
+font-family:"Playfair Display",serif;
+font-size:24px;
+line-height:2;
+color:#333;
+}
+
+.signature{
+margin-top:35px;
+font-size:16px;
+letter-spacing:2px;
+text-transform:uppercase;
+color:#9f7f8b;
+}
+
+/* audio */
+
+.player{
+display:flex;
+align-items:center;
+gap:22px;
+}
+
+.play-btn{
+width:78px;
+height:78px;
+
+border:none;
+border-radius:50%;
+
+background:linear-gradient(135deg,#d8a5b6,#b88fa0);
+
+color:white;
+
+font-size:28px;
+cursor:pointer;
+
+box-shadow:
+0 20px 40px rgba(184,143,160,0.35);
+
+transition:.3s ease;
+}
+
+.play-btn:hover{
+transform:scale(1.08);
+}
+
+.song-meta h3{
+font-family:"Playfair Display",serif;
+font-size:28px;
+margin-bottom:8px;
+}
+
+.song-meta p{
+color:#777;
+}
+
+/* footer */
+
+.footer{
+text-align:center;
+padding:20px 20px 60px;
+
+font-size:13px;
+line-height:2;
+color:#777;
+}
+
+.footer span{
+color:#b88fa0;
+font-weight:600;
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.hero{
+padding:70px 20px;
+}
+
+.hero h1{
+font-size:48px;
+}
+
+.hero .year{
+font-size:120px;
+top:70px;
+}
+
+.slider{
+height:500px;
+}
+
+.portrait-wrap{
+grid-template-columns:1fr;
+}
+
+.portrait{
+height:460px;
+}
+
+.letter p{
+font-size:21px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- HERO -->
+
+<div class="card hero">
+
+<div class="year">22</div>
+
+<h1>SHAMISO</h1>
+
+<div class="date">
+16 MAY
+</div>
+
+<div class="sub">
+
+A birthday memory made with love for someone beautiful, unforgettable, and deeply appreciated ❤️
+
+</div>
+
+<div class="from">
+FROM TINOTENDA
+</div>
+
+</div>
+
+<!-- SHAMISO SLIDESHOW -->
+
+<div class="card">
+
+<div class="section-title">
+Shamiso Through My Eyes
+</div>
+
+<div class="slider">
+
+<div class="slide active" data-bg="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_25_11%20AM.png">
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_25_11%20AM.png">
+</div>
+
+<div class="slide" data-bg="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_24_55%20AM.png">
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_24_55%20AM.png">
+</div>
+
+<div class="slide" data-bg="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_01_07%20AM.png">
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2010_01_07%20AM.png">
+</div>
+
+<div class="slide" data-bg="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2009_58_56%20AM%20(1).png">
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/ChatGPT%20Image%20May%2012%2C%202026%2C%2009_58_56%20AM%20(1).png">
+</div>
+
+</div>
+
+</div>
+
+<!-- TINOTENDA -->
+
+<div class="card">
+
+<div class="section-title">
+A Face Behind The Memory
+</div>
+
+<div class="portrait-wrap">
+
+<div class="portrait">
+
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/IMG-20260511-WA0003.jpg">
+
+<div class="overlay">
+
+<h3>Tinotenda</h3>
+
+<p>
+The one quietly celebrating you today ❤️
+</p>
+
+</div>
+
+</div>
+
+<div class="portrait">
+
+<img src="https://pub-e10a28ca38cf452da437555e0f90e288.r2.dev/BirthdayShamiso/IMG-20260511-WA0002.jpg">
+
+<div class="overlay">
+
+<h3>For Shamiso</h3>
+
+<p>
+A little digital memory made with intention and love.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LETTER -->
+
+<div class="card letter">
+
+<div class="paper">
+
+<h2>
+A Letter For You
+</h2>
+
+<p>
+
+Happy birthday, Shamie ❤️
+
+<br><br>
+
+I’m genuinely grateful that someone as beautiful, confident, and courageous as you exists in my life.
+
+<br><br>
+
+You carry a presence that’s hard to ignore — soft in some moments, strong in others, but always unforgettable.
+
+<br><br>
+
+As you turn 22, I pray this new year brings you more peace, more joy, more growth, and everything your heart quietly wishes for.
+
+<br><br>
+
+Keep shining the way you do.
+
+</p>
+
+<div class="signature">
+— Tinotenda
+</div>
+
+</div>
+
+</div>
+
+<!-- SONG -->
+
+<div class="card">
+
+<div class="player">
+
+<button class="play-btn" onclick="toggleAudio()">
+▶
+</button>
+
+<div class="song-meta">
+
+<h3>
+Your Song
+</h3>
+
+<p>
+Chosen for you ❤️
+</p>
+
+</div>
+
+<audio id="audio" src="shamiso.mp3"></audio>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<span>
+A Birthday Memory Created With Love
+</span>
+
+<br>
+
+Powered by WarStreet Experience Model
+
+</div>
+
+<script>
+
+/* slideshow */
+
+const slides=document.querySelectorAll(".slide");
+
+slides.forEach(slide=>{
+slide.style.setProperty(
+'--bg',
+`url(${slide.dataset.bg})`
+);
+
+slide.querySelector("img").parentElement.style.setProperty(
+'background-image',
+`url(${slide.dataset.bg})`
+);
+
+slide.style.setProperty(
+'background-image',
+`url(${slide.dataset.bg})`
+);
+});
+
+let current=0;
+
+setInterval(()=>{
+
+slides[current].classList.remove("active");
+
+current=(current+1)%slides.length;
+
+slides[current].classList.add("active");
+
+},4500);
+
+/* audio */
+
+const audio=document.getElementById("audio");
+
+function toggleAudio(){
+
+if(audio.paused){
+
+audio.play();
+
+}else{
+
+audio.pause();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
